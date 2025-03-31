@@ -1,25 +1,24 @@
 import datetime
 
 import jwt
-from fastapi import Depends
 from passlib.context import CryptContext
 from pydantic import EmailStr
 
-from at_user_api.dto.db.user import DTOUserDB
-from at_user_api.repository.interface import UserRepositoryInterface
-from at_user_api.repository.user import UserRepository
+from at_user_api.repository.user.models.models import UserDB
 from at_user_api.service.user.config import authConfig
+from at_user_api.service.user.dependencies import IUserRepository
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
-    def __init__(self, rep: UserRepositoryInterface = Depends(UserRepository)):
+    def __init__(self, rep: IUserRepository):
         self._rep = rep
 
-    def create_user(self, user: DTOUserDB) -> int:
+    def create_user(self, user: UserDB) -> int:
         self._verify_email(user.email)
         user.password = self._generate_password_hash(user.password)
+        
         return self._rep.create_user(user)
 
     def generate_token(self, login: str, password: str) -> str:
@@ -36,6 +35,7 @@ class UserService:
             data={"user_id": user.id},
             expires_delta=access_token_expires,
         )
+        
         return token
 
     def verify_token(self, token: str) -> int:
@@ -58,6 +58,7 @@ class UserService:
         to_encode = data.copy()
         expire = datetime.datetime.now(datetime.timezone.utc) + expires_delta
         to_encode.update({"exp": expire})
+        
         return jwt.encode(
             to_encode,
             key=authConfig.SECRET_KEY,
@@ -66,8 +67,9 @@ class UserService:
 
     def _verify_email(self, email: EmailStr):
         email_str = str(email)
-        if not email_str.endswith("@campus.mephi.ru"):
-            raise ValueError("MEPhI email required")
+
+        # if not email_str.endswith("@campus.mephi.ru"):
+        #     raise ValueError("MEPhI email required")
 
     def _verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)

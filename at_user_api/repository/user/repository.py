@@ -1,14 +1,12 @@
-from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from at_user_api.repository.user.models.conversions import to_User, to_UserDB
 from at_user_api.repository.user.models.models import UserDB
 from at_user_api.schema.user import User
-from at_user_api.storage.postgres.session import get_db
 
 
 class UserRepository:
-    def __init__(self, db_session: Session = Depends(get_db)):
+    def __init__(self, db_session: Session):
         self.db_session = db_session
 
     def create_user(self, user: UserDB) -> int:
