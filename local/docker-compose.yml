@@ -32,7 +32,7 @@ services:
     networks:
       - custom-network
     depends_on:
-      rabbitmq:
+      at_rabbitmq:
         condition: service_healthy
     healthcheck:
       test: ps -p $(cat /var/run/at_queue/pidfile.pid) || exit 1

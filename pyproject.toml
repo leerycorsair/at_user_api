@@ -17,7 +17,6 @@ python-jose = "^3.3.0"
 at-queue = {git = "https://github.com/grigandal625/AT_QUEUE.git", rev = "master"}
 pydantic-settings = "^2.8.1"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

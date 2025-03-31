@@ -5,7 +5,6 @@ from at_user_api.config.cli_args import parse_args
 
 parse_args()
 
-
 import uvicorn
 from at_queue.core.session import ConnectionParameters
 from fastapi import Depends, FastAPI
