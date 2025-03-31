@@ -1,11 +1,11 @@
 version: "3.9"
 
 services:
-  rabbitmq:
+  at_rabbitmq:
     container_name: at_rabbitmq
     image: "rabbitmq:management"
     ports:
-      - "${RABBIGMQ_UI_PORT}:15672"  
+      - "${RABBITMQ_UI_PORT}:15672"  
       - "${RABBITMQ_PORT}:5672"    
     networks:
       - custom-network
@@ -24,7 +24,7 @@ services:
       dockerfile: ./docker_files/Dockerfile.at_queue
     command: > 
       python -m at_queue
-      --host rabbitmq
+      --host at_rabbitmq
       --port ${RABBITMQ_PORT}
       --login ${RABBITMQ_LOGIN}
       --password ${RABBITMQ_PASSWORD}
