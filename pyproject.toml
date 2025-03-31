@@ -15,6 +15,7 @@ alembic = "^1.13.2"
 psycopg2-binary = "^2.9.9"
 python-jose = "^3.3.0"
 at-queue = {git = "https://github.com/grigandal625/AT_QUEUE.git", rev = "master"}
+pydantic-settings = "^2.8.1"
 
 
 [build-system]
