@@ -1,46 +1,36 @@
-from typing import Optional, Union
+from functools import lru_cache
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
 from yarl import URL
-import os
-from dataclasses import dataclass
 
 
-@dataclass
-class RabbitMQConfig:
-    host: str
-    port: int
-    login: str
-    password: str
-    virtualhost: str
-    ssl: bool
-    url: URL
+class RabbitMQConfig(BaseSettings):
+    host: str = Field(..., alias="RABBITMQ_HOST")
+    port: int = Field(..., alias="RABBITMQ_PORT")
+    login: str = Field(..., alias="RABBITMQ_LOGIN")
+    password: str = Field(..., alias="RABBITMQ_PASSWORD")
+    virtualhost: str = Field(..., alias="RABBITMQ_VHOST")
+    ssl: bool = Field(..., alias="RABBITMQ_SSL")
+
+    @property
+    def url(self) -> URL:
+        scheme = "amqps" if self.ssl else "amqp"
+        return URL.build(
+            scheme=scheme,
+            host=self.host,
+            port=self.port,
+            user=self.login,
+            password=self.password,
+            path=self.virtualhost,
+        )
+
+    class Config:
+        extra = "allow"
 
 
 class RabbitMQStore:
     @classmethod
+    @lru_cache(maxsize=1)
     def get_rabbitmq_config(cls) -> RabbitMQConfig:
-        RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "localhost")
-        RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT", 5672))
-        RABBITMQ_LOGIN = os.getenv("RABBITMQ_LOGIN", "guest")
-        RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD", "guest")
-        RABBITMQ_VHOST = os.getenv("RABBITMQ_VHOST", "/")
-        RABBITMQ_SSL = bool(os.getenv("RABBITMQ_SSL", False))
-
-        scheme = "amqps" if RABBITMQ_SSL else "amqp"
-        RABBITMQ_URL = URL.build(
-            scheme=scheme,
-            host=RABBITMQ_HOST,
-            port=RABBITMQ_PORT,
-            user=RABBITMQ_LOGIN,
-            password=RABBITMQ_PASSWORD,
-            path=RABBITMQ_VHOST,
-        )
-
-        return RabbitMQConfig(
-            host=RABBITMQ_HOST,
-            port=RABBITMQ_PORT,
-            login=RABBITMQ_LOGIN,
-            password=RABBITMQ_PASSWORD,
-            virtualhost=RABBITMQ_VHOST,
-            ssl=RABBITMQ_SSL,
-            url=RABBITMQ_URL,
-        )
+        return RabbitMQConfig()
