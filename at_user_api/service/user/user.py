@@ -1,13 +1,14 @@
 import datetime
-from fastapi import Depends
+
 import jwt
+from fastapi import Depends
 from passlib.context import CryptContext
 from pydantic import EmailStr
-from src.dto.db.user import DTOUserDB
-from src.repository.interface import UserRepositoryInterface
-from src.repository.user import UserRepository
-from src.service.user.config import authConfig
 
+from at_user_api.dto.db.user import DTOUserDB
+from at_user_api.repository.interface import UserRepositoryInterface
+from at_user_api.repository.user import UserRepository
+from at_user_api.service.user.config import authConfig
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

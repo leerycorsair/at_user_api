@@ -1,15 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from src.dto.db.user import DTOUserDB
-from src.service.interface import UserServiceInterface
-from src.service.user.user import UserService
-from src.dto.api.auth import (
+from at_user_api.dto.api.auth import (
     SignInRequest,
-    SignUpRequest,
     SignInResponse,
+    SignUpRequest,
     SignUpResponse,
 )
-
+from at_user_api.dto.db.user import DTOUserDB
+from at_user_api.service.interface import UserServiceInterface
+from at_user_api.service.user.user import UserService
 
 router = APIRouter(
     prefix="/auth",

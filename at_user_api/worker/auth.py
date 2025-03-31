@@ -1,7 +1,7 @@
 from at_queue.core.at_component import ATComponent
 from at_queue.utils.decorators import component_method
 
-from src.service.user.user import UserService
+from at_user_api.service.user.user import UserService
 
 
 class AuthWorker(ATComponent):

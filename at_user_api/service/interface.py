@@ -1,4 +1,4 @@
-from src.dto.db.user import DTOUserDB
+from at_user_api.dto.db.user import DTOUserDB
 
 
 class UserServiceInterface:

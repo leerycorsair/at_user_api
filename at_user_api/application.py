@@ -5,10 +5,10 @@ from at_queue.core.session import ConnectionParameters
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.api import setup_routes
-from src.config.rabbitmq import RabbitMQStore
-from src.service.user.user import UserService
-from src.worker.auth import AuthWorker
+from at_user_api.api.api import setup_routes
+from at_user_api.config.rabbitmq import RabbitMQStore
+from at_user_api.service.user.user import UserService
+from at_user_api.worker.auth import AuthWorker
 
 
 @asynccontextmanager

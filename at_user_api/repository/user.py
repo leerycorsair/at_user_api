@@ -1,8 +1,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from src.dto.db.user import DTOUserDB
-from src.schema.user import User
-from src.store.postgres.session import get_db
+
+from at_user_api.dto.db.user import DTOUserDB
+from at_user_api.schema.user import User
+from at_user_api.store.postgres.session import get_db
 
 
 class UserRepository:
