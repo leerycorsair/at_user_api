@@ -1,12 +1,16 @@
 import asyncio
 from contextlib import asynccontextmanager
 
+from at_user_api.config.cli_args import parse_args
+
+parse_args()
+
+
 import uvicorn
 from at_queue.core.session import ConnectionParameters
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from at_user_api.config.cli_args import parse_args
 from at_user_api.config.rabbitmq import RabbitMQStore
 from at_user_api.config.server import ServerConfigurator
 from at_user_api.delivery.router import setup_routes
@@ -47,7 +51,6 @@ app.add_middleware(
 )
 
 if __name__ == "__main__":
-    parse_args()
     server_config = ServerConfigurator().get_server_config()
     uvicorn.run(
         app,
