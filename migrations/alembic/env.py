@@ -3,7 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from at_user_api.config.postgres import PostgresConfig
+from at_user_api.config.postgres import PostgresStore
 from at_user_api.schema.base import metadata
 from at_user_api.schema.user import *
 
@@ -24,7 +24,7 @@ target_metadata = metadata
 
 
 def set_sqlalchemy_url():
-    conf = PostgresConfig.get_database_config()
+    conf = PostgresStore.get_database_config()
     config.set_main_option("sqlalchemy.url", conf.url)
 
 
