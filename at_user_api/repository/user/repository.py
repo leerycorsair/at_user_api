@@ -1,33 +1,27 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from at_user_api.dto.db.user import DTOUserDB
+from at_user_api.repository.user.models.conversions import to_User, to_UserDB
+from at_user_api.repository.user.models.models import UserDB
 from at_user_api.schema.user import User
-from at_user_api.store.postgres.session import get_db
+from at_user_api.storage.postgres.session import get_db
 
 
 class UserRepository:
     def __init__(self, db_session: Session = Depends(get_db)):
         self.db_session = db_session
 
-    def create_user(self, user: DTOUserDB) -> int:
-        new_user = User(
-            login=user.login, password=user.password, email=user.email, group=user.group
-        )
+    def create_user(self, user: UserDB) -> int:
+        new_user = to_User(user)
         self.db_session.add(new_user)
         self.db_session.commit()
         self.db_session.refresh(new_user)
+
         return new_user.id
 
-    def get_user(self, login: str) -> DTOUserDB:
+    def get_user(self, login: str) -> UserDB:
         user = self.db_session.query(User).filter_by(login=login).first()
         if user is not None:
-            return DTOUserDB(
-                id=user.id,
-                login=user.login,
-                password=user.password,
-                email=user.email,
-                group=user.group,
-            )
+            return to_UserDB(user)
         else:
             raise ValueError("User not found")
