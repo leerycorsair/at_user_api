@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "at-user"
+name = "at_user_api"
 version = "0.1.0"
-description = "AT_USER"
-authors = ["Leonov Vladislav"]
+description = ""
+authors = ["Leonov Vladislav <vladleonov21032002@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 fastapi = "^0.111.1"
 passlib = "^1.7.4"
 pyjwt = "^2.9.0"
