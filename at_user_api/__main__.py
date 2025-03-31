@@ -6,10 +6,10 @@ from at_queue.core.session import ConnectionParameters
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from at_user_api.api.api import setup_routes
 from at_user_api.config.cli_args import parse_args
 from at_user_api.config.rabbitmq import RabbitMQStore
 from at_user_api.config.server import ServerConfigurator
+from at_user_api.delivery.router import setup_routes
 from at_user_api.service.user.user import UserService
 from at_user_api.worker.auth import AuthWorker
 
