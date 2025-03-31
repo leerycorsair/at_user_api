@@ -1,4 +1,4 @@
-from at_user_api.delivery.auth.models.models import SignUpRequest
+from at_user_api.delivery.user.models.models import SignUpRequest
 from at_user_api.repository.user.models.models import UserDB
 
 
