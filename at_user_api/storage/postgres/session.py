@@ -1,10 +1,11 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from ...config.postgres import PostgresConfig
 from typing import Generator
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
-engine = create_engine(PostgresConfig.get_database_config().url, echo=True)
+from at_user_api.config.postgres import PostgresStore
+
+engine = create_engine(PostgresStore.get_database_config().url, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
