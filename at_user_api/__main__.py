@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
 
     auth_worker = AuthWorker(
         connection_parameters=connection_parameters,
-        user_service=Depends(get_user_service),
+        user_service=get_user_service,
     )
 
     await auth_worker.initialize()
